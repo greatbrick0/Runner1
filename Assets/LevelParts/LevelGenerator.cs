@@ -14,8 +14,11 @@ public class LevelGenerator : MonoBehaviour
 
     private List<GameObject> levelParts = new List<GameObject>();
 
+    private Transform trans;
+
     private void Start()
     {
+        trans = transform;
         for(int ii = 0; ii < genCount; ii++)
         {
             AddNewPart();
@@ -46,5 +49,13 @@ public class LevelGenerator : MonoBehaviour
     private void OnMouseUp()
     {
         AddNewPart();
+    }
+
+    public void MoveAllParts(Vector3 offset)
+    {
+        for(int ii = 0; ii < trans.childCount; ii++)
+        {
+            trans.GetChild(ii).position += offset;
+        }
     }
 }
