@@ -420,10 +420,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845de45e4b62c094d925c313c39b338d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  genCount: 3
+  genCount: 5
   possibleParts:
   - {fileID: 8805966543318151573, guid: 556a8543f6e5cc64a86663fbb5bbf9d4, type: 3}
   - {fileID: 8805966543318151573, guid: 78189c0fed693344eb9fbc0da33cea67, type: 3}
+  genDistance: 30
+  playerTrans: {fileID: 1724849784}
 --- !u!4 &424345959
 Transform:
   m_ObjectHideFlags: 0

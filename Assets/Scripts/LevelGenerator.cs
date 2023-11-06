@@ -10,8 +10,13 @@ public class LevelGenerator : MonoBehaviour
     private List<GameObject> possibleParts;
 
     private List<GameObject> levelParts = new();
+    private Vector3 furthestPoint;
+    [SerializeField, Tooltip("How close the player must be to the end of the level to generate a new part.")]
+    private float genDistance = 20.0f;
 
     private Transform trans;
+    [SerializeField]
+    private Transform playerTrans;
 
     private void Start()
     {
@@ -21,9 +26,15 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (furthestPoint.z - playerTrans.position.z < genDistance) AddNewPart();
+    }
+
     private void RemoveOldestPart()
     {
         Destroy(levelParts[0]);
+        levelParts.RemoveAt(0);
     }
 
     public void AddNewPart()
@@ -34,17 +45,13 @@ public class LevelGenerator : MonoBehaviour
         levelParts[^1].transform.position = levelParts.Count == 1 ?
             Vector3.zero : levelParts[^2].GetComponent<PartScript>().connectPoint.position;
 
+        furthestPoint = levelParts[^1].GetComponent<PartScript>().connectPoint.position;
         if (levelParts.Count > genCount) RemoveOldestPart();
     }
 
     private GameObject RandomPart()
     {
         return possibleParts[Random.Range(0, possibleParts.Count)];
-    }
-
-    private void OnMouseUp()
-    {
-        AddNewPart();
     }
 
     public void MoveAllParts(Vector3 offset)
