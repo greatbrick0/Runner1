@@ -7,12 +7,14 @@ public class MovementScript : MonoBehaviour
     [Header("Player Movement")]
     [SerializeField] private float speed = 10f;
     [SerializeField] private float jumpForce  =10f;
+    [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float slideDuration = .5f;
     [SerializeField] private float laneSwitchSpeed = 15f;
     [Header("World Settings")]
     [SerializeField] private float laneDistance = 2f;
     
-    private Vector3 moveDirection;
+    private Vector3 moveDirection; //this gets reset every frame
+    private float yVelocity; //vertical velocity needs to be persistent across time to accurately simulate gravity
     private CharacterController controller;
     private Animator anim;
     private bool isSliding;
@@ -37,7 +39,8 @@ public class MovementScript : MonoBehaviour
     {
         if (controller.isGrounded)
         {
-            moveDirection.y = jumpForce;
+            //cant apply jumpForce directly to moveDirection, that causes upwards velocity to be 10 units per frame. we want 10 units per second.
+            yVelocity = jumpForce; 
             anim.SetTrigger("Jump");
         }
     }
@@ -60,7 +63,10 @@ public class MovementScript : MonoBehaviour
     private void Update()
     {
         moveDirection = speed * Time.deltaTime * Vector3.forward;
-        moveDirection.y+=Physics.gravity.y*Time.deltaTime;
+
+        if (!controller.isGrounded) yVelocity -= gravity * Time.deltaTime; //simulates gravity
+        moveDirection.y = yVelocity * Time.deltaTime; //converting from units per second to units per frame
+        
         controller.Move(moveDirection);
     }
 /// <summary>
