@@ -303,7 +303,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.33100694, y: 0.000000016236429, z: -0.0000000056954317, w: 0.9436283}
+  m_LocalRotation: {x: 0.33100694, y: -0.000000016236429, z: 0.0000000056954317, w: 0.9436283}
   m_LocalPosition: {x: 0, y: 9, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -522,11 +522,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845de45e4b62c094d925c313c39b338d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  genCount: 5
+  genCount: 8
   possibleParts:
   - {fileID: 8805966543318151573, guid: 556a8543f6e5cc64a86663fbb5bbf9d4, type: 3}
   - {fileID: 8805966543318151573, guid: 78189c0fed693344eb9fbc0da33cea67, type: 3}
-  genDistance: 30
+  genDistance: 100
   playerTrans: {fileID: 1724849784}
 --- !u!4 &424345959
 Transform:
@@ -637,7 +637,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592332641}
-  m_LocalRotation: {x: 0.33100694, y: 0.000000016236429, z: -0.0000000056954317, w: 0.9436283}
+  m_LocalRotation: {x: 0.33100694, y: -0.000000016236429, z: 0.0000000056954317, w: 0.9436283}
   m_LocalPosition: {x: 0, y: 9, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1228,6 +1228,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4568612250390301075, guid: 1fcb6a2f08bc44342adc4739c540a53d,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568612250390301075, guid: 1fcb6a2f08bc44342adc4739c540a53d,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568612250390301075, guid: 1fcb6a2f08bc44342adc4739c540a53d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8982234339916226000, guid: 1fcb6a2f08bc44342adc4739c540a53d,
         type: 3}
       propertyPath: gravity

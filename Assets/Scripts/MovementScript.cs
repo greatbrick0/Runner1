@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class MovementScript : MonoBehaviour
 {
     [Header("Player Movement")]
-    [SerializeField] private float speed = 10f;
+    [SerializeField] public float speed = 10f;
     [SerializeField] private float jumpForce  =10f;
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float slideDuration = .5f;
