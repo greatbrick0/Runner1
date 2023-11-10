@@ -1251,7 +1251,12 @@ PrefabInstance:
     - target: {fileID: 8982234339916226000, guid: 1fcb6a2f08bc44342adc4739c540a53d,
         type: 3}
       propertyPath: gravity
-      value: 15
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982234339916226000, guid: 1fcb6a2f08bc44342adc4739c540a53d,
+        type: 3}
+      propertyPath: jumpForce
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8982234339916226003, guid: 1fcb6a2f08bc44342adc4739c540a53d,
         type: 3}
