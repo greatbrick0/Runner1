@@ -22,6 +22,8 @@ public class MovementScript : MonoBehaviour
     private int targetLane = 1;
     private Coroutine laneSwitchCoroutine;
 
+    bool inMenu = true;
+
     #region InputRegion
     #pragma warning disable IDE0051
     private void OnMove(InputValue _input)
@@ -62,12 +64,16 @@ public class MovementScript : MonoBehaviour
     }
     private void Update()
     {
-        moveDirection = speed * Time.deltaTime * Vector3.forward;
+        if (!inMenu)
+        {
+            moveDirection = speed * Time.deltaTime * Vector3.forward;
 
-        if (!controller.isGrounded) yVelocity -= gravity * Time.deltaTime; //simulates gravity
-        moveDirection.y = yVelocity * Time.deltaTime; //converting from units per second to units per frame
-        
-        controller.Move(moveDirection);
+            if (!controller.isGrounded) yVelocity -= gravity * Time.deltaTime; //simulates gravity
+            moveDirection.y = yVelocity * Time.deltaTime; //converting from units per second to units per frame
+
+            controller.Move(moveDirection);
+        }
+
     }
 /// <summary>
 /// This Coroutine makes the player slide for a set duration
@@ -97,5 +103,11 @@ public class MovementScript : MonoBehaviour
             controller.Move(newPosition - transform.position);
             yield return null;
         }
+    }
+
+
+    public void SetInMenu(bool menu)
+    {
+        inMenu = menu;
     }
 }
