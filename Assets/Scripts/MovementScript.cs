@@ -10,6 +10,7 @@ public class MovementScript : MonoBehaviour
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float slideDuration = .5f;
     [SerializeField] private float laneSwitchSpeed = 15f;
+    public bool canSwitch = true;
     [Header("World Settings")]
     [SerializeField] private float laneDistance = 2f;
     
@@ -28,6 +29,8 @@ public class MovementScript : MonoBehaviour
     #pragma warning disable IDE0051
     private void OnMove(InputValue _input)
     {
+        if (!canSwitch) return;
+
         int direction = Mathf.Clamp(Mathf.RoundToInt(_input.Get<Vector2>().x), -1, 1);
         targetLane += direction;
         targetLane = Mathf.Clamp(targetLane, 0, 2);
