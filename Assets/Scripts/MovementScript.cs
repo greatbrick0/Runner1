@@ -5,14 +5,17 @@ using UnityEngine.InputSystem;
 public class MovementScript : MonoBehaviour
 {
     [Header("Player Movement")]
-    [SerializeField] private float speed = 10f;
+    [SerializeField] public float speed = 10f;
     [SerializeField] private float jumpForce  =10f;
+    [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float slideDuration = .5f;
     [SerializeField] private float laneSwitchSpeed = 15f;
+    public bool canSwitch = true;
     [Header("World Settings")]
     [SerializeField] private float laneDistance = 2f;
     
-    private Vector3 moveDirection;
+    private Vector3 moveDirection; //this gets reset every frame
+    private float yVelocity; //vertical velocity needs to be persistent across time to accurately simulate gravity
     private CharacterController controller;
     private Animator anim;
     private bool isSliding;
@@ -20,10 +23,14 @@ public class MovementScript : MonoBehaviour
     private int targetLane = 1;
     private Coroutine laneSwitchCoroutine;
 
+    bool inMenu = true;
+
     #region InputRegion
     #pragma warning disable IDE0051
     private void OnMove(InputValue _input)
     {
+        if (!canSwitch) return;
+
         int direction = Mathf.Clamp(Mathf.RoundToInt(_input.Get<Vector2>().x), -1, 1);
         targetLane += direction;
         targetLane = Mathf.Clamp(targetLane, 0, 2);
@@ -37,7 +44,8 @@ public class MovementScript : MonoBehaviour
     {
         if (controller.isGrounded)
         {
-            moveDirection.y = jumpForce;
+            //cant apply jumpForce directly to moveDirection, that causes upwards velocity to be 10 units per frame. we want 10 units per second.
+            yVelocity = jumpForce; 
             anim.SetTrigger("Jump");
         }
     }
@@ -59,9 +67,16 @@ public class MovementScript : MonoBehaviour
     }
     private void Update()
     {
-        moveDirection = speed * Time.deltaTime * Vector3.forward;
-        moveDirection.y+=Physics.gravity.y*Time.deltaTime;
-        controller.Move(moveDirection);
+        if (!inMenu)
+        {
+            moveDirection = speed * Time.deltaTime * Vector3.forward;
+
+            if (!controller.isGrounded) yVelocity -= gravity * Time.deltaTime; //simulates gravity
+            moveDirection.y = yVelocity * Time.deltaTime; //converting from units per second to units per frame
+
+            controller.Move(moveDirection);
+        }
+
     }
 /// <summary>
 /// This Coroutine makes the player slide for a set duration
@@ -91,5 +106,11 @@ public class MovementScript : MonoBehaviour
             controller.Move(newPosition - transform.position);
             yield return null;
         }
+    }
+
+
+    public void SetInMenu(bool menu)
+    {
+        inMenu = menu;
     }
 }
