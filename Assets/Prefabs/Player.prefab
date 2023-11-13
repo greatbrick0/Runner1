@@ -143,7 +143,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2130c6a097e2c1141b34b5d96c9f5b33, type: 3}
   - {fileID: 8300000, guid: e8ca21bf9d86cfc46815ae2644310e25, type: 3}
   - {fileID: 8300000, guid: c481ea3511bfdfd4982c5a7ca10c4d7e, type: 3}
-  boostSound: {fileID: 8300000, guid: c481ea3511bfdfd4982c5a7ca10c4d7e, type: 3}
+  boostSound: {fileID: 8300000, guid: 7d7b0f6571c7e854086a0ad4c2d5ffcd, type: 3}
 --- !u!1 &8982234340528805347
 GameObject:
   m_ObjectHideFlags: 0

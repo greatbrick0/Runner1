@@ -20,10 +20,13 @@ public class CoinCollector : MonoBehaviour
     [SerializeField]
     private AudioClip boostSound;
     private AudioSource audioPlayer;
+    private AudioSource boostPlayer;
 
     private void Awake()
     {
         audioPlayer = gameObject.AddComponent<AudioSource>();
+        boostPlayer = gameObject.AddComponent<AudioSource>();
+        boostPlayer.clip = boostSound;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,23 +36,22 @@ public class CoinCollector : MonoBehaviour
         {
             coins += 1;
             obj.SetActive(false);
-
-            if (Boost()) audioPlayer.clip = boostSound;
-            else audioPlayer.clip = RandomCollectSound();
+            audioPlayer.clip = RandomCollectSound();
             audioPlayer.Play();
+
+            Boost();
         }
     }
 
-    private bool Boost()
+    private void Boost()
     {
         coinCounter += 1;
         if (coinCounter >= coinBoostCount)
         {
             GetComponent<MovementScript>().speed += coinBoostAmount;
             coinCounter = 0;
-            return true;
+            boostPlayer.Play();
         }
-        else return false;
     }
 
     private AudioClip RandomCollectSound()
