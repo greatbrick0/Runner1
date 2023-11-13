@@ -4,15 +4,28 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    [Header("UI Elements")]
+    [Header("UI Elements For Starting Menu")]
     [SerializeField] TextMeshProUGUI gameTitle;
     [SerializeField] TextMeshProUGUI pressButtonToPlay;
     [SerializeField] float uiLerpTime;
+
+    [Header("UI Elements For GameOver Screen")]
+    [SerializeField] Image gameOverScreen;
+    [SerializeField] TextMeshProUGUI gameOverTitleText;
+    [SerializeField] TextMeshProUGUI coinCount;
+    [SerializeField] Button restartButton;
+    [SerializeField] float  buttonPosition;
+    [SerializeField] Button quitButton;
+    [SerializeField] float  quitButtonPosition;
+
     [Header("Other Elements")]
     [SerializeField] MovementScript ms;
+    [SerializeField] CoinCollector cc;
+
     bool start;
     bool isDead;
 
@@ -41,6 +54,10 @@ public class MenuManager : MonoBehaviour
         {
             StateOne();
         }
+        if(stateTwo)
+        {
+            StateTwo();
+        }
 
     }
 
@@ -63,10 +80,29 @@ public class MenuManager : MonoBehaviour
             LeanTween.value(gameTitle.gameObject, gameTitle.color.a, 0f, 0.5f).setOnUpdate(LerpAlphaValueTitle);
 
             stateOne = false;
-            stateTwo = true;
         }
     }
 
+    void StateTwo()
+    {
+        coinCount.text = "Coins: " + cc.coins;
+
+        //TEXT
+        LeanTween.value(gameOverScreen.gameObject, gameOverScreen.color.a, 1f, uiLerpTime).setOnUpdate(LerpGameOverScreen);
+        LeanTween.value(coinCount.gameObject, coinCount.color.a, 1f, uiLerpTime).setOnUpdate(LerpAlphaCoinCount);
+        LeanTween.value(gameOverTitleText.gameObject, gameOverTitleText.color.a, 1f, uiLerpTime).setOnUpdate(LerpAlphaGameOver);
+
+        //BUTTONS 
+        LeanTween.moveY(restartButton.gameObject, buttonPosition, 2).setEaseInOutCubic();
+        LeanTween.moveY(quitButton.gameObject, quitButtonPosition, 2).setEaseInOutCubic();
+        
+        stateTwo = false;
+
+
+    }
+
+
+    
     void LerpAlphaValue(float a)
     {
         var alphaChange = new Vector4(pressButtonToPlay.color.r, pressButtonToPlay.color.g, pressButtonToPlay.color.b, a);
@@ -78,5 +114,43 @@ public class MenuManager : MonoBehaviour
         var alphaChange = new Vector4(gameTitle.color.r, gameTitle.color.g, gameTitle.color.b, a);
 
         gameTitle.color = alphaChange;
+    }
+
+    void LerpGameOverScreen(float a)
+    {
+        var alphaChange = new Vector4(gameOverScreen.color.r, gameOverScreen.color.g, gameOverScreen.color.b, a);
+
+        gameOverScreen.color = alphaChange;
+    }
+    void LerpAlphaCoinCount(float a)
+    {
+        var alphaChange = new Vector4(coinCount.color.r, coinCount.color.g, coinCount.color.b, a);
+
+        coinCount.color = alphaChange;
+    }
+
+    void LerpAlphaGameOver(float a)
+    {
+        var alphaChange = new Vector4(gameOverTitleText.color.r, gameOverTitleText.color.g, gameOverTitleText.color.b, a);
+
+        gameOverTitleText.color = alphaChange;
+    }
+    //------------LERP METHODS ENDS------------
+
+    //------------BUTTON METHODS------------
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void QuitButton()
+    {
+        Application.Quit();
+    }
+
+    //------------GETTER AND SETTER METHODS------------
+    public void SetStateTwo(bool isDead)
+    {
+        stateTwo = isDead;
     }
 }

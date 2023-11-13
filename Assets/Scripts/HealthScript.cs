@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Collider))]
 public class HealthScript : MonoBehaviour
 {
+    [SerializeField] MenuManager mm;
+    bool isDead;
+
     private MovementScript movement;
     [SerializeField]
     private float bounceForce = 3;
@@ -38,7 +41,7 @@ public class HealthScript : MonoBehaviour
     {
         health -= 1;
 
-        if(health == 0) SceneManager.LoadScene(0);
+        if(health == 0) mm.SetStateTwo(isDead = true);
         else
         {
             movement.canSwitch = true;
