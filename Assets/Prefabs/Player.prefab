@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2629791359573933012}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0493a1ae465d24e48b79906cd6902c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mm: {fileID: 0}
   bounceForce: 6
   bounceTime: 0.8
   returnTime: 0.8
@@ -133,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36cf27011b200774693330271041abbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <coins>k__BackingField: 0
 --- !u!1 &8982234340528805347
 GameObject:
   m_ObjectHideFlags: 0
