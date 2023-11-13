@@ -8,7 +8,10 @@ public class CoinCollector : MonoBehaviour
     public int coins { get; private set; } = 0;
 
     [SerializeField]
-    int coinBoostCount = 3;
+    private int coinBoostCount = 3;
+    private int coinCounter = 0;
+    [SerializeField]
+    private float coinBoostAmount = 0.75f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,6 +20,18 @@ public class CoinCollector : MonoBehaviour
         {
             coins += 1;
             obj.SetActive(false);
+            Boost();
+        }
+    }
+
+    private void Boost()
+    {
+        coinCounter += 1;
+        if (coinCounter >= coinBoostCount)
+        {
+            GetComponent<MovementScript>().speed += coinBoostAmount;
+            coinCounter = 0;
+            print("boost");
         }
     }
 }
