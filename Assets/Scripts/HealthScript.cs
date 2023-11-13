@@ -41,11 +41,13 @@ public class HealthScript : MonoBehaviour
         {
             audioPlayer.clip = woodSound;
             audioPlayer.Play();
+            Bounce();
         }
         else if (hitObject.CompareTag("MetalEnemy"))
         {
             audioPlayer.clip = metalSound;
             audioPlayer.Play();
+            Bounce();
         }
     }
 
@@ -62,7 +64,11 @@ public class HealthScript : MonoBehaviour
     {
         health -= 1;
 
-        if(health == 0) mm.SetStateTwo(isDead = true);
+        if (health == 0)
+        {
+            mm.SetStateTwo(isDead = true);
+            Destroy(this);
+        }
         else
         {
             movement.canSwitch = true;
