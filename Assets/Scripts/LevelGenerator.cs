@@ -8,6 +8,7 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField, Tooltip("Parts from this list will be randomly selected for generation.")]
     private List<GameObject> possibleParts;
+    private GameObject previousChoice;
 
     private List<GameObject> levelParts = new();
     private Vector3 furthestPoint;
@@ -20,6 +21,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
+        previousChoice = possibleParts[0];
         for(int i = 0; i < genCount; ++i)
         {
             AddNewPart();
@@ -51,7 +53,12 @@ public class LevelGenerator : MonoBehaviour
 
     private GameObject RandomPart()
     {
-        return possibleParts[Random.Range(0, possibleParts.Count)];
+        List<GameObject> newSet = new List<GameObject>(possibleParts);
+        newSet.Remove(previousChoice);
+        int randomInt = Random.Range(0, newSet.Count);
+        previousChoice = newSet[randomInt];
+
+        return newSet[randomInt];
     }
 
     public void MoveAllParts(Vector3 offset)
