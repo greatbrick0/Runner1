@@ -602,6 +602,9 @@ MonoBehaviour:
   possibleParts:
   - {fileID: 8805966543318151573, guid: 556a8543f6e5cc64a86663fbb5bbf9d4, type: 3}
   - {fileID: 8805966543318151573, guid: 78189c0fed693344eb9fbc0da33cea67, type: 3}
+  - {fileID: 8805966543318151573, guid: 408ef18586ebba641b440b2143b57f4b, type: 3}
+  - {fileID: 8805966543318151573, guid: 801be1aa911d81d49a18e52587b471cd, type: 3}
+  - {fileID: 8805966543318151573, guid: 08f01ff8589546b45ba9388e7a48bc99, type: 3}
   genDistance: 100
   playerTrans: {fileID: 1724849784}
 --- !u!4 &424345959
