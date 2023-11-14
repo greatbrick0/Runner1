@@ -35,26 +35,32 @@ public class HealthScript : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         GameObject hitObject = hit.collider.gameObject;
-        if (hitObject.CompareTag("Enemy")) Bounce();
 
+        if (hitObject.CompareTag("Ground")) return;
+        else if (hitObject.CompareTag("Enemy")) Bounce(hit);
         else if (hitObject.CompareTag("WoodEnemy"))
         {
             audioPlayer.clip = woodSound;
             audioPlayer.Play();
-            Bounce();
+            Bounce(hit);
         }
         else if (hitObject.CompareTag("MetalEnemy"))
         {
             audioPlayer.clip = metalSound;
             audioPlayer.Play();
-            Bounce();
+            Bounce(hit);
         }
     }
 
-    private void Bounce()
+    private void Bounce(ControllerColliderHit hit)
     {
-        savedSpeed = movement.speed;
+        if(movement.speed > 0) savedSpeed = movement.speed;
+
+        if (hit.normal.x > 0.5) movement.ForceSlide(1);
+        else if (hit.normal.x < -0.5) movement.ForceSlide(-1);
+        else if (hit.normal.y > 0.5) movement.ForceJump(10);
         movement.canSwitch = false;
+
         movement.speed = -bounceForce;
         LeanTween.value(movement.speed, 0, bounceTime).setOnUpdate((value) => { movement.speed = value; });
         Invoke(nameof(HitBehaviour), bounceTime);
@@ -64,9 +70,10 @@ public class HealthScript : MonoBehaviour
     {
         health -= 1;
 
-        if (health == 0)
+        if (health <= 0)
         {
             mm.SetStateTwo(isDead = true);
+            movement.StopAllCoroutines();
             Destroy(this);
         }
         else

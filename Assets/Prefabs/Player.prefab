@@ -56,6 +56,8 @@ MonoBehaviour:
   laneSwitchSpeed: 15
   canSwitch: 1
   laneDistance: 2
+  jumpAudioClip: {fileID: 8300000, guid: 7f77e1854d23741478305aa75fbfa7b4, type: 3}
+  switchAudioClip: {fileID: 8300000, guid: 8acd9a03e30b3ba498be26d053412d0a, type: 3}
 --- !u!143 &8982234339916226001
 CharacterController:
   m_ObjectHideFlags: 0
