@@ -13,7 +13,14 @@ public class MovementScript : MonoBehaviour
     public bool canSwitch = true;
     [Header("World Settings")]
     [SerializeField] private float laneDistance = 2f;
-    
+    [Header("Sounds")]
+    [SerializeField]
+    private AudioClip jumpAudioClip;
+    [SerializeField]
+    private AudioClip switchAudioClip;
+    private AudioSource jumpAudioPlayer;
+    private AudioSource switchAudioPlayer;
+
     private Vector3 moveDirection; //this gets reset every frame
     private float yVelocity; //vertical velocity needs to be persistent across time to accurately simulate gravity
     private CharacterController controller;
@@ -25,6 +32,24 @@ public class MovementScript : MonoBehaviour
 
     bool inMenu = true;
 
+    public void ForceSlide(int direction)
+    {
+        targetLane += direction;
+        targetLane = Mathf.Clamp(targetLane, 0, 2);
+        if (laneSwitchCoroutine != null)
+        {
+            StopCoroutine(laneSwitchCoroutine);
+        }
+        switchAudioPlayer.Play();
+        laneSwitchCoroutine = StartCoroutine(SwitchLane(targetLane));
+    }
+
+    public void ForceJump(float force)
+    {
+        yVelocity = force;
+        anim.SetTrigger("Jump");
+    }
+
     #region InputRegion
     #pragma warning disable IDE0051
     private void OnMove(InputValue _input)
@@ -32,20 +57,25 @@ public class MovementScript : MonoBehaviour
         if (!canSwitch) return;
 
         int direction = Mathf.Clamp(Mathf.RoundToInt(_input.Get<Vector2>().x), -1, 1);
+        if (direction == 0) return;
+
         targetLane += direction;
         targetLane = Mathf.Clamp(targetLane, 0, 2);
         if (laneSwitchCoroutine != null)
         {
             StopCoroutine(laneSwitchCoroutine);
         }
+        switchAudioPlayer.Play();
         laneSwitchCoroutine = StartCoroutine(SwitchLane(targetLane));
     }
+
     private void OnJump()
     {
         if (controller.isGrounded)
         {
             //cant apply jumpForce directly to moveDirection, that causes upwards velocity to be 10 units per frame. we want 10 units per second.
-            yVelocity = jumpForce; 
+            yVelocity = jumpForce;
+            jumpAudioPlayer.Play();
             anim.SetTrigger("Jump");
         }
     }
@@ -64,6 +94,11 @@ public class MovementScript : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+
+        jumpAudioPlayer = gameObject.AddComponent<AudioSource>();
+        jumpAudioPlayer.clip = jumpAudioClip;
+        switchAudioPlayer = gameObject.AddComponent<AudioSource>();
+        switchAudioPlayer.clip = switchAudioClip;
     }
     private void Update()
     {

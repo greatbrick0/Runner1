@@ -56,6 +56,8 @@ MonoBehaviour:
   laneSwitchSpeed: 15
   canSwitch: 1
   laneDistance: 2
+  jumpAudioClip: {fileID: 8300000, guid: 7f77e1854d23741478305aa75fbfa7b4, type: 3}
+  switchAudioClip: {fileID: 8300000, guid: 8acd9a03e30b3ba498be26d053412d0a, type: 3}
 --- !u!143 &8982234339916226001
 CharacterController:
   m_ObjectHideFlags: 0
@@ -122,6 +124,8 @@ MonoBehaviour:
   bounceTime: 0.8
   returnTime: 0.8
   health: 1
+  woodSound: {fileID: 8300000, guid: 93bfbb9a9086f5341b1852cef681cf9b, type: 3}
+  metalSound: {fileID: 8300000, guid: ebbf628757b33d546a7f00d63c71a5dd, type: 3}
 --- !u!114 &2629791359573933012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +139,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <coins>k__BackingField: 0
+  coinBoostCount: 3
+  coinBoostAmount: 0.75
+  collectSounds:
+  - {fileID: 8300000, guid: 2130c6a097e2c1141b34b5d96c9f5b33, type: 3}
+  - {fileID: 8300000, guid: e8ca21bf9d86cfc46815ae2644310e25, type: 3}
+  - {fileID: 8300000, guid: c481ea3511bfdfd4982c5a7ca10c4d7e, type: 3}
+  boostSound: {fileID: 8300000, guid: 7d7b0f6571c7e854086a0ad4c2d5ffcd, type: 3}
 --- !u!1 &8982234340528805347
 GameObject:
   m_ObjectHideFlags: 0
