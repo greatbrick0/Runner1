@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq.Expressions;
 
 public class MenuManager : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Button quitButton;
     [SerializeField] float  quitButtonPosition;
 
+    [Header("Menu Sounds")]
+    [SerializeField] AudioSource menuAs;
+    [SerializeField] AudioClip hoverSound, clickSound;
+
     [Header("Other Elements")]
     [SerializeField] MovementScript ms;
     [SerializeField] CoinCollector cc;
@@ -35,7 +40,7 @@ public class MenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+      
     }
 
     // Update is called once per frame
@@ -75,6 +80,8 @@ public class MenuManager : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
+            menuAs.clip = clickSound;
+            menuAs.Play();
             ms.SetInMenu(false);
             LeanTween.value(pressButtonToPlay.gameObject, pressButtonToPlay.color.a, 0f, uiLerpTime).setOnUpdate(LerpAlphaValue);
             LeanTween.value(gameTitle.gameObject, gameTitle.color.a, 0f, 0.5f).setOnUpdate(LerpAlphaValueTitle);
@@ -140,10 +147,32 @@ public class MenuManager : MonoBehaviour
     //------------BUTTON METHODS------------
     public void RestartButton()
     {
-        SceneManager.LoadScene(0);
+
+
+        menuAs.clip = clickSound;
+        menuAs.Play();
+        Invoke("DelaySceneChange", 0.5f);
+    }
+
+    public void HoverSound()
+    {
+        menuAs.clip = hoverSound;
+        menuAs.Play();
     }
 
     public void QuitButton()
+    {
+        menuAs.clip = clickSound;
+        menuAs.Play();
+        Invoke("DelaySoundChangeQuit", 0.5f);
+    }
+    
+    void DelaySceneChange()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    void DelaySoundChangeQuit()
     {
         Application.Quit();
     }
